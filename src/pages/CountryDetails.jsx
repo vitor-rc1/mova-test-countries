@@ -1,11 +1,11 @@
 import React from 'react';
 
-function CountrieDetails() {
+function CountryDetails() {
   return (
     <div className="details">
-      Countrie details
+      Country details
     </div>
   );
 }
 
-export default CountrieDetails;
+export default CountryDetails;
