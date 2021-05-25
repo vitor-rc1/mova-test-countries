@@ -1,9 +1,11 @@
 import React from 'react';
+import Header from '../components/Header';
 
 function CountryDetails() {
   return (
     <div className="details">
-      Country details
+      <Header backButton />
+
     </div>
   );
 }

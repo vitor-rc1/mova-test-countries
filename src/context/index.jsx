@@ -10,9 +10,11 @@ const Provider = ({ children }) => {
   const [filter, setFilter] = useState('all');
   const [page, setPage] = useState(0);
   const [numberOfPages, setNumberOfPages] = useState(0);
+  const [loading, setLoading] = useState(true);
   const numberOfCountries = 10;
 
   useEffect(async () => {
+    setLoading(true);
     const responseCountries = await getCountries(filter);
     setCountries(responseCountries);
     const totalPages = Math.ceil(responseCountries.length / numberOfCountries);
@@ -31,6 +33,8 @@ const Provider = ({ children }) => {
     countries,
     page,
     numberOfPages,
+    filter,
+    loading,
     setFilter,
     setPage,
   };

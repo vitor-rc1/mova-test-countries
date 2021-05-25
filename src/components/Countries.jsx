@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { CountriesContext } from '../context';
 import './Countries.css';
 
@@ -6,9 +7,9 @@ function Countries() {
   const { pageCountries } = useContext(CountriesContext);
 
   const countryFlag = ({ flag, alpha3Code }) => (
-    <div className="flag">
+    <Link to={`/${alpha3Code}`} className="flag">
       <img src={flag} alt={alpha3Code} />
-    </div>
+    </Link>
   );
   return (
     <div className="countries-component">
