@@ -1,26 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { CountriesContext } from '../context';
 import Header from '../components/Header';
-import getCountry from '../service/getCountry';
 import Details from '../components/Details';
+import Countries from '../components/Countries';
+import SwitchPage from '../components/SwitchPage';
+import switchPage from '../helpers/switchPage';
+import getCountry from '../service/getCountry';
+import './CountryDetails.css';
 
 function CountryDetails({ match: { params } }) {
+  const { allCountries } = useContext(CountriesContext);
   const [loading, setLoading] = useState(true);
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [page, setPage] = useState(1);
+  const [numberOfPages, setNumberOfPages] = useState(0);
+  const [pageCountries, setPageCountries] = useState([{}]);
+
+  const getNeighbors = (bordersCountries) => bordersCountries
+    .map((codeCountry) => allCountries
+      .find(({ alpha3Code }) => alpha3Code === codeCountry));
 
   useEffect(async () => {
-    setLoading(true);
-    const { code } = params;
-    const countryResponse = await getCountry(code);
-    setSelectedCountry(countryResponse);
-    setLoading(false);
-  }, [params]);
+    if (allCountries.length) {
+      setLoading(true);
+      setPage(1);
+      const { code } = params;
+      const countryResponse = await getCountry(code);
+      if (countryResponse) {
+        countryResponse.borders = getNeighbors(countryResponse.borders);
+        setNumberOfPages(Math.ceil(countryResponse.borders.length / 10));
+        setSelectedCountry(countryResponse);
+      }
+      setLoading(false);
+    }
+  }, [params, allCountries]);
 
-  if (loading) return '';
+  useEffect(() => {
+    if (selectedCountry) {
+      setPageCountries(switchPage(selectedCountry.borders, page));
+    }
+  }, [selectedCountry, page]);
+
+  if (loading) return 'Carregando';
   return (
     <div className="country-details">
       <Header backButton />
-      {selectedCountry && <Details country={selectedCountry} /> }
+      {selectedCountry ? (
+        <>
+          <Details country={selectedCountry} />
+          <p className="neighbors-text">Países Vizinhos:</p>
+          <Countries countries={pageCountries} />
+          <SwitchPage page={page} setPage={setPage} numberOfPages={numberOfPages} />
+        </>
+      ) : 'Not found'}
     </div>
   );
 }

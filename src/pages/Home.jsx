@@ -4,16 +4,23 @@ import Countries from '../components/Countries';
 import FilterBar from '../components/FilterBar';
 import Header from '../components/Header';
 import SwitchPage from '../components/SwitchPage';
+import './Home.css';
 
 function Home() {
-  const { loading } = useContext(CountriesContext);
-  if (loading) return '';
+  const {
+    loading, pageCountries, page, setPage, numberOfPages,
+  } = useContext(CountriesContext);
+  if (loading) return 'Carregando';
   return (
     <div className="home">
       <Header backButton={false} />
       <FilterBar />
-      <Countries />
-      <SwitchPage />
+      {pageCountries.length ? (
+        <>
+          <Countries countries={pageCountries} />
+          <SwitchPage page={page} setPage={setPage} numberOfPages={numberOfPages} />
+        </>
+      ) : 'Not Found'}
     </div>
   );
 }

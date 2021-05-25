@@ -1,10 +1,36 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import { CountriesContext } from '../context';
+import './FilterBar.css';
+
+const useStyles = makeStyles((theme) => ({
+  button: {
+    display: 'block',
+    marginTop: theme.spacing(2),
+  },
+  formControl: {
+    margin: theme.spacing(3),
+    minWidth: 370,
+  },
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      minWidth: 370,
+    },
+  },
+}));
 
 function FilterBar() {
-  const [filterType, setFilterType] = useState('');
-  const [filterValue, setFilterValue] = useState('');
-  const { setFilter } = useContext(CountriesContext);
+  const classes = useStyles();
+  const {
+    setFilter, filterType, setFilterType, filterValue, setFilterValue,
+  } = useContext(CountriesContext);
 
   const fetchFilter = (event) => {
     if (event) event.preventDefault();
@@ -18,61 +44,74 @@ function FilterBar() {
   };
 
   const inputValue = (
-    <input
-      type="text"
-      onChange={({ target }) => setFilterValue(target.value)}
-      value={filterValue}
-    />
+    <form className={classes.root} noValidate>
+      <TextField
+        onChange={({ target }) => setFilterValue(target.value)}
+        value={filterValue}
+        id="standard-basic"
+        label="Digite um valor"
+      />
+    </form>
   );
 
   const regionValue = (
-    <select
-      value={filterValue}
-      onChange={({ target }) => setFilterValue(target.value)}
-    >
-      <option value="">Escolha uma Região</option>
-      <option value="africa">Africa</option>
-      <option value="americas">Americas</option>
-      <option value="asia">Asia</option>
-      <option value="europe">Europe</option>
-      <option value="oceania">Oceania</option>
-    </select>
+    <FormControl className={classes.formControl}>
+      <InputLabel id="select-region">Escolha uma região</InputLabel>
+      <Select
+        labelId="select-region"
+        value={filterValue}
+        onChange={({ target }) => setFilterValue(target.value)}
+      >
+        <MenuItem value="">Escolha uma Região</MenuItem>
+        <MenuItem value="africa">Africa</MenuItem>
+        <MenuItem value="americas">Americas</MenuItem>
+        <MenuItem value="asia">Asia</MenuItem>
+        <MenuItem value="europe">Europe</MenuItem>
+        <MenuItem value="oceania">Oceania</MenuItem>
+      </Select>
+    </FormControl>
   );
 
   return (
-    <div className="filter-bar-component">
-      <select
-        value={filterType}
-        onChange={({ target }) => setFilterType(target.value)}
-        required
-      >
-        <option value="">Escolha uma opção</option>
-        <option value="region">Região</option>
-        <option value="capital">Capital</option>
-        <option value="lang">Língua</option>
-        <option value="name">País</option>
-        <option value="callingcode">Código de ligação</option>
-      </select>
-
-      <div hidden={filterType === ''}>
-        {filterType === 'region' ? regionValue : inputValue}
+    <div className="filter-bar">
+      <div className="select-type">
+        <FormControl className={classes.formControl}>
+          <InputLabel id="select-type">Filtra por</InputLabel>
+          <Select
+            labelId="select-type"
+            value={filterType}
+            onChange={({ target }) => setFilterType(target.value)}
+          >
+            <MenuItem value="region">Região</MenuItem>
+            <MenuItem value="capital">Capital</MenuItem>
+            <MenuItem value="lang">Língua</MenuItem>
+            <MenuItem value="name">País</MenuItem>
+            <MenuItem value="callingcode">Código de ligação</MenuItem>
+          </Select>
+        </FormControl>
       </div>
 
-      <button
-        type="submit"
-        className="search-button"
-        onClick={fetchFilter}
-      >
-        Pesquisar
-      </button>
+      <div className="select-value" hidden={filterType === ''}>
+        {filterType === 'region' ? regionValue : inputValue}
+      </div>
+      <div className="buttons-container">
+        <Button
+          className="clear-button"
+          onClick={clearFilter}
+          color="secondary"
+          variant="contained"
+        >
+          Limpar
+        </Button>
 
-      <button
-        type="button"
-        className="clear-button"
-        onClick={clearFilter}
-      >
-        Limpar
-      </button>
+        <Button
+          className="search-button"
+          onClick={fetchFilter}
+          variant="contained"
+        >
+          Pesquisar
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,39 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Details.css';
 
 function Details({ country }) {
   const {
     name, capital, region, subregion, population, languages,
     flag, alpha3Code,
   } = country;
-  console.log(languages);
   return (
     <div className="details-component">
       <img src={flag} alt={alpha3Code} className="flag" />
-      <p>
-        Nome:
-        {name}
-      </p>
-      <p>
-        Capital:
-        {capital}
-      </p>
-      <p>
-        Região:
-        {region}
-      </p>
-      <p>
-        Sub-Região:
-        {subregion}
-      </p>
-      <p>
-        População:
-        {population}
-      </p>
-      <p>
-        Línguas:
-        {languages.map((language) => `${language.name} `)}
-      </p>
+      <div>
+
+        <p>
+          Nome:&nbsp;
+          {name}
+        </p>
+        <p>
+          Capital:&nbsp;
+          {capital}
+        </p>
+        <p>
+          Região:&nbsp;
+          {region}
+        </p>
+        <p>
+          Sub-Região:&nbsp;
+          {subregion}
+        </p>
+        <p>
+          População:&nbsp;
+          {population}
+        </p>
+        <p>
+          Línguas:&nbsp;
+          {languages.map((language) => `${language.name} `)}
+        </p>
+      </div>
     </div>
   );
 }
@@ -44,7 +47,7 @@ Details.propTypes = {
     capital: PropTypes.string,
     region: PropTypes.string,
     subregion: PropTypes.string,
-    population: PropTypes.string,
+    population: PropTypes.number,
     flag: PropTypes.string,
     alpha3Code: PropTypes.string,
     languages: PropTypes.arrayOf(PropTypes.string),

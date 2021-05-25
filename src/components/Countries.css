@@ -1,3 +1,25 @@
 .countries-component {
-  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.flag{
+  width: 360px;
+  height: 230px;
+  margin: 10px;
+}
+
+@media (min-width: 970px)
+{
+  .countries-component
+   {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 80%;
+    margin: auto;
+   }
 }

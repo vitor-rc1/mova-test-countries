@@ -1,15 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 * {
   margin: 0;
   padding: 0;
 }
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-}
 
-.flag{
-  width: 200px;
-  height: 150px;
+body {
+  font-family: Montserrat;
+  font-size: 22px;
+  color: #454545;
 }

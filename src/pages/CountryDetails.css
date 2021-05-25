@@ -1,0 +1,15 @@
+.neighbors-text {
+  text-align: left;
+  margin: 50px 0 20px 20px;
+}
+
+.country-details {
+  margin: auto;
+}
+@media (min-width: 780px)
+{
+  .neighbors-text {
+    margin-left: 150px;
+  }
+
+}

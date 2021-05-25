@@ -1,44 +1,52 @@
 import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import getCountries from '../service/getCountries';
+import switchPage from '../helpers/switchPage';
 
 const CountriesContext = createContext();
 
 const Provider = ({ children }) => {
-  const [countries, setCountries] = useState([]);
+  const [countriesFiltered, setCountriesFiltered] = useState([]);
+  const [allCountries, setAllCountries] = useState([]);
   const [pageCountries, setPageCountries] = useState([]);
   const [filter, setFilter] = useState('all');
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [filterType, setFilterType] = useState('');
+  const [filterValue, setFilterValue] = useState('');
   const numberOfCountries = 10;
 
   useEffect(async () => {
     setLoading(true);
     const responseCountries = await getCountries(filter);
-    setCountries(responseCountries);
+    if (filter === 'all') setAllCountries(responseCountries);
+    setCountriesFiltered(responseCountries);
     const totalPages = Math.ceil(responseCountries.length / numberOfCountries);
     setNumberOfPages(totalPages);
+    setLoading(false);
   }, [filter]);
 
   useEffect(() => {
-    const initialIndex = page * numberOfCountries;
-    const finalIndex = initialIndex + numberOfCountries;
-    const sliceCountries = countries.slice(initialIndex, finalIndex);
-    setPageCountries(sliceCountries);
-    setLoading(false);
-  }, [countries, page]);
+    setPageCountries(switchPage(countriesFiltered, page));
+  }, [countriesFiltered, page]);
 
   const context = {
+    allCountries,
     pageCountries,
-    countries,
+    countriesFiltered,
     page,
     numberOfPages,
     filter,
     loading,
+    filterType,
+    filterValue,
     setFilter,
     setLoading,
     setPage,
+    switchPage,
+    setFilterType,
+    setFilterValue,
   };
 
   return (
