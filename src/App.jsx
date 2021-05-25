@@ -1,11 +1,17 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Home from './pages/Home';
+import CountrieDetails from './pages/CountrieDetails';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      teste
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/:code" component={CountrieDetails} />
+        <Route path="/" component={Home} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 
