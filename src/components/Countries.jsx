@@ -7,8 +7,8 @@ function Countries() {
   const { pageCountries } = useContext(CountriesContext);
 
   const countryFlag = ({ flag, alpha3Code }) => (
-    <Link to={`/${alpha3Code}`} className="flag">
-      <img src={flag} alt={alpha3Code} />
+    <Link to={`/${alpha3Code}`}>
+      <img src={flag} alt={alpha3Code} className="flag" />
     </Link>
   );
   return (

@@ -26,6 +26,7 @@ const Provider = ({ children }) => {
     const finalIndex = initialIndex + numberOfCountries;
     const sliceCountries = countries.slice(initialIndex, finalIndex);
     setPageCountries(sliceCountries);
+    setLoading(false);
   }, [countries, page]);
 
   const context = {
@@ -36,6 +37,7 @@ const Provider = ({ children }) => {
     filter,
     loading,
     setFilter,
+    setLoading,
     setPage,
   };
 

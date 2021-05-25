@@ -8,3 +8,8 @@ body {
   align-items: center;
   box-sizing: border-box;
 }
+
+.flag{
+  width: 200px;
+  height: 150px;
+}
