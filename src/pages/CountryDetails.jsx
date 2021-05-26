@@ -5,6 +5,8 @@ import Header from '../components/Header';
 import Details from '../components/Details';
 import Countries from '../components/Countries';
 import SwitchPage from '../components/SwitchPage';
+import Loading from '../components/Loading';
+import NotFound from '../components/NotFound';
 import switchPage from '../helpers/switchPage';
 import getCountry from '../service/getCountry';
 import './CountryDetails.css';
@@ -42,7 +44,7 @@ function CountryDetails({ match: { params } }) {
     }
   }, [selectedCountry, page]);
 
-  if (loading) return 'Carregando';
+  if (loading) return <Loading />;
   return (
     <div className="country-details">
       <Header backButton />
@@ -53,7 +55,7 @@ function CountryDetails({ match: { params } }) {
           <Countries countries={pageCountries} />
           <SwitchPage page={page} setPage={setPage} numberOfPages={numberOfPages} />
         </>
-      ) : 'Not found'}
+      ) : <NotFound />}
     </div>
   );
 }
